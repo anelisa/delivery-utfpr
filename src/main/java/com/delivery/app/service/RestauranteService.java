@@ -27,4 +27,9 @@ public class RestauranteService {
 		}
 		return restaurante.get();
 	}
+	
+	public Restaurante criarRestaurante(Restaurante restaurante) {
+		
+		return restauranteRepository.save(restaurante);
+	}
 }
