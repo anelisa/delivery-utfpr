@@ -28,8 +28,28 @@ public class RestauranteController {
 		return restauranteService.listaRestaurante();
 	}
 	
+<<<<<<< Updated upstream
 	@GetMapping(value = "/{id}")
 	public Restaurante retornaRestaurante(@PathVariable Long id) {
 		return restauranteService.retornaRestaurante(id);
+=======
+	@GetMapping("/{id}")
+	@ResponseBody
+	public ResponseEntity<Restaurante> retornaRestaurante(@PathVariable Long id) {
+		
+		Restaurante restaurante = restauranteService.retornaRestauranteId(id);
+		
+		if(restaurante == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(restaurante);
+	}
+	
+	@PostMapping("/criar")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	private Restaurante criarRestaurante(@RequestBody Restaurante restaurante) {
+		return restauranteService.criarRestaurante(restaurante);
+>>>>>>> Stashed changes
 	}
 }
