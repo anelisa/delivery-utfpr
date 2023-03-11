@@ -3,6 +3,7 @@ package com.delivery.app.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,16 @@ public class RestauranteService {
 	public Restaurante criarRestaurante(Restaurante restaurante) {
 		
 		return restauranteRepository.save(restaurante);
+	}
+	
+	public Restaurante atualizarRestaurante(Long id, Restaurante restaurante) {
+		
+		//validar se o restaurante que esta sendo buscado existe no banco de dados
+		Restaurante restauranteAtual = this.retornaRestauranteId(id);
+		
+		BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
+		
+		return restauranteRepository.save(restauranteAtual);
+
 	}
 }
