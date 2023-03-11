@@ -28,8 +28,9 @@ public class RestauranteController {
 		return restauranteService.listaRestaurante();
 	}
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping("/{id}")
+	@ResponseBody
 	public Restaurante retornaRestaurante(@PathVariable Long id) {
-		return restauranteService.retornaRestaurante(id);
+		return restauranteService.retornaRestauranteId(id);
 	}
 }

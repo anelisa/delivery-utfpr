@@ -19,7 +19,12 @@ public class RestauranteService {
 		return restauranteRepository.findAll();
 	}
 	
-	public Restaurante retornaRestaurante(Long id) {
-		return restauranteRepository.findById(id).get();
+	public Restaurante retornaRestauranteId(Long id) {
+		Optional<Restaurante> restaurante =  restauranteRepository.findById(id);
+		
+		if(restaurante.isEmpty()) {
+			return null;
+		}
+		return restaurante.get();
 	}
 }
