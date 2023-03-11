@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.delivery.app.dto.RestauranteResumidoDTO;
 import com.delivery.app.entity.Restaurante;
+import com.delivery.app.mapper.RestauranteResumidoMapper;
 import com.delivery.app.service.RestauranteService;
 
 @RestController
@@ -25,11 +27,18 @@ public class RestauranteController {
 	@Autowired
 	private RestauranteService restauranteService;
 	
+	@Autowired
+	private RestauranteResumidoMapper restauranteResumidoMapper;
+	
 	@GetMapping
 	@ResponseBody
-	public List<Restaurante> listarRestaurantes() {
+	public List<RestauranteResumidoDTO> listarRestaurantes() {
 		
-		return restauranteService.listaRestaurante();
+		List<Restaurante> restaurantes = restauranteService.listaRestaurante();
+		
+		List<RestauranteResumidoDTO> restauranteDTO = restauranteResumidoMapper.map(restaurantes);
+		
+		return restauranteDTO;
 	}
 	
 	@GetMapping("/{id}")
@@ -39,7 +48,8 @@ public class RestauranteController {
 		Restaurante restaurante = restauranteService.retornaRestauranteId(id);
 		
 		if(restaurante == null) {
-			return ResponseEntity.notFound().build();
+
+			return ResponseEntity.notFound().build();	
 		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(restaurante);
