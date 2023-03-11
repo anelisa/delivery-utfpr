@@ -1,12 +1,26 @@
 package com.delivery.app.dto;
 
-import lombok.Data;
-
-@Data
 public class ExceptionResponseDTO {
 	
 	private Integer status;
 	
 	private String mensagem;
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public String getMensagem() {
+		return mensagem;
+	}
+
+	public void setMensagem(String mensagem) {
+		this.mensagem = mensagem;
+	}
+	
 
 }

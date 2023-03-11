@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.delivery.app.dto.ExceptionResponseDTO;
 import com.delivery.app.exception.NotFoundException;
 
+
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	

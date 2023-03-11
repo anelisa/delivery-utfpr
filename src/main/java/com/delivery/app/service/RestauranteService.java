@@ -20,10 +20,6 @@ public class RestauranteService {
 		return restauranteRepository.findAll();
 	}
 	
-<<<<<<< Updated upstream
-	public Restaurante retornaRestaurante(Long id) {
-		return restauranteRepository.findById(id).get();
-=======
 	public Restaurante retornaRestauranteId(Long id) {
 		Optional<Restaurante> restaurante =  restauranteRepository.findById(id);
 		
@@ -37,6 +33,5 @@ public class RestauranteService {
 	public Restaurante criarRestaurante(Restaurante restaurante) {
 		
 		return restauranteRepository.save(restaurante);
->>>>>>> Stashed changes
 	}
 }
