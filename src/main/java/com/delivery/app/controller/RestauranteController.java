@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.delivery.app.dto.RestauranteInputDTO;
 import com.delivery.app.dto.RestauranteResumidoDTO;
 import com.delivery.app.entity.Restaurante;
+import com.delivery.app.mapper.RestauranteInputMapper;
 import com.delivery.app.mapper.RestauranteResumidoMapper;
 import com.delivery.app.service.RestauranteService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -30,6 +34,9 @@ public class RestauranteController {
 	
 	@Autowired
 	private RestauranteResumidoMapper restauranteResumidoMapper;
+	
+	@Autowired
+	private RestauranteInputMapper restauranteInputMapper;
 	
 	@GetMapping
 	@ResponseBody
@@ -58,7 +65,9 @@ public class RestauranteController {
 	
 	@PostMapping("/criar")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	private Restaurante criarRestaurante(@RequestBody Restaurante restaurante) {
+	private Restaurante criarRestaurante(@RequestBody @Valid RestauranteInputDTO restauranteDTO) {
+		
+		Restaurante restaurante = restauranteInputMapper.map(restauranteDTO);
 		
 		restaurante = restauranteService.criarRestaurante(restaurante);
 		return restaurante;
@@ -66,7 +75,9 @@ public class RestauranteController {
 	
 	@PutMapping("/atualizar/{id}")
 	@ResponseBody
-	private Restaurante atualizarRestaurante(@PathVariable Long id, @RequestBody Restaurante restaurante) {
+	private Restaurante atualizarRestaurante(@PathVariable Long id, @RequestBody @Valid RestauranteInputDTO restauranteDTO) {
+		
+		Restaurante restaurante = restauranteInputMapper.map(restauranteDTO);
 		
 		restaurante = restauranteService.atualizarRestaurante(id, restaurante);
 		return restaurante;
