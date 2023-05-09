@@ -2,11 +2,14 @@ package com.delivery.app.controller;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.delivery.app.dto.RestauranteDTO;
 import com.delivery.app.dto.RestauranteInputDTO;
 import com.delivery.app.dto.RestauranteResumidoDTO;
 import com.delivery.app.entity.Restaurante;
@@ -51,7 +55,7 @@ public class RestauranteController {
 	
 	@GetMapping("/{id}")
 	@ResponseBody
-	public ResponseEntity<Restaurante> retornaRestaurante(@PathVariable Long id) {
+	public ResponseEntity<RestauranteDTO> retornaRestaurante(@PathVariable Long id) {
 		
 		Restaurante restaurante = restauranteService.retornaRestauranteId(id);
 		
@@ -60,7 +64,7 @@ public class RestauranteController {
 			return ResponseEntity.notFound().build();	
 		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body(restaurante);
+		return ResponseEntity.status(HttpStatus.OK).body(new RestauranteDTO(restaurante));
 	}
 	
 	@PostMapping("/criar")
@@ -82,4 +86,24 @@ public class RestauranteController {
 		restaurante = restauranteService.atualizarRestaurante(id, restaurante);
 		return restaurante;
 	}
+	
+	@PatchMapping("/atualizar-alguns/{id}")
+	@ResponseBody
+	private Restaurante atualizarRestauranteAlguns(@PathVariable Long id, @RequestBody Map<String, Object> campos) {
+		
+		Restaurante restaurante = restauranteService.ajustarRestaurante(id, campos);
+
+		return restaurante;
+	}
+	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	private void deletarRestaurante(@PathVariable Long id) {
+
+		restauranteService.deletarRestaurante(id);
+
+		//return ResponseEntity.noContent().build();
+
+	}
+	
 }

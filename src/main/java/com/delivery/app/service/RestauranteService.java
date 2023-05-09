@@ -1,15 +1,18 @@
 package com.delivery.app.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.delivery.app.entity.Restaurante;
 import com.delivery.app.exception.NotFoundException;
 import com.delivery.app.repository.RestauranteRepository;
+import com.delivery.app.util.Utils;
 
 @Service
 public class RestauranteService {
@@ -44,6 +47,25 @@ public class RestauranteService {
 		BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
 		
 		return restauranteRepository.save(restauranteAtual);
+
+	}
+	
+	public Restaurante ajustarRestaurante(Long id, Map<String, Object> campos) {
+		
+		Restaurante restauranteAtual = this.retornaRestauranteId(id);
+		Utils.merge(restauranteAtual, campos);
+		return restauranteRepository.save(restauranteAtual);
+	}
+	
+	public void deletarRestaurante(Long id) {
+
+		try {
+
+			restauranteRepository.deleteByIdWithException(id);
+
+		} catch (EmptyResultDataAccessException ex) {
+			throw new NotFoundException(ex.getLocalizedMessage());
+		}
 
 	}
 }

@@ -1,9 +1,9 @@
 package com.delivery.app.entity;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,23 +15,26 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "restaurante")
-public class Restaurante {
-	
+@Table(name="cliente")
+public class Cliente {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "nome")
+	@Column(name="nome")
 	private String nome;
 	
-	@Column(name = "taxa_frete")
-	private BigDecimal taxaFrete;
+	@Column(name="telefone")
+	private String telefone;
 	
-	@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
-	private List<Produto> produto;
+	@Column(name="idade")
+	private Integer idade;
 	
-	@OneToMany(mappedBy = "restaurante")
+	@Column(name="endereco")
+	private String endereco;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedido;
-
 }
